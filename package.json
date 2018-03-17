@@ -7,6 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "server": "node back/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -15,7 +16,7 @@
     "next": "^5.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "shufflejs": "^5.1.1",
-    "three": "^0.90.0"
+    "three": "^0.90.0",
+    "ws": "^5.0.0"
   }
 }

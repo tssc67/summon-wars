@@ -12,12 +12,14 @@ class Game {
         this.renderer.scene.add( this.cube );
         this.renderer.camera.position.z = 5;
     }
-
+    gameLoop(){
+        this.cube.rotation.x += 0.1;
+        this.cube.rotation.y += 0.1;
+    }
     start(){
         const loop = () => {
             requestAnimationFrame(loop);
-            this.cube.rotation.x += 0.1;
-            this.cube.rotation.y += 0.1;
+            this.gameLoop();
             this.renderer.render();
         }
         loop();
