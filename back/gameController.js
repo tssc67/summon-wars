@@ -46,19 +46,42 @@ class GameController{
         this.players.B.deck = Bcards;
 
     }
-getSupportCards(){
-    
-}
 
-getMonsterCardGroups(){
-
-}
-
-endGame(){
+    endGame(){
+        //TODO
+        this.sendState();
+    }
+    summonPhase(){
         //TODO
     }
-summonPhase(){
-        
+    attackPhase(){
+    }
+    summon(player,card){
+            switch(card){
+                case monsterCard :
+                    player.monsterField.add(card);
+                break;
+                case supportCards :
+                    player.supportField.add(card);
+                break;    
+            }
+        }
+      
+    attack(player,attackedMonster){
+        if(attackedMonster == null) {
+            player.descreaseHP();
+            if(player.HP == 0) this.endGame(this.currentPlayer);
+        }
+        if(attackedMonster.getStackNumber == 1) player.monsterField.destroy(attackedMonster);
+        else player.monsterField.removeTopStack(attackedMonster);
+    }    
+
+    useSkill(player,card){
+        card.activateSkill();
+    }
+
+    switchPlayer(){
+        this.currentPlayer = this.player.A? this.player.B : this.player.A;
     }
     onInput(action){
         switch(action.type){
@@ -72,6 +95,15 @@ summonPhase(){
             case 'SUMMON':
             this.currentPlayer.summon();
             this.sendState();
+            break;
+            case 'ATTACK':
+            this.currentPlayer.attack();
+            this.sendState();
+            case 'END_TURN' :
+            switchPlayer();
+            break;
+            case 'NEXT':
+            phase.next();
             break;
         }
     }
