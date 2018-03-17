@@ -13,7 +13,7 @@ class GameController{
         return this.currentPlayer;
     }
     drawPhase(){
-        if(this.currentPlayer.deck.length === 0){
+        if(this.currentPlayer.deck.length == 0){
             this.endGame(this.currentPlayer == this.players.A ? this.players.B: this.players.A);
         }
         this.currentPlayer.draw();
@@ -47,7 +47,7 @@ class GameController{
 
     }
 
-    endGame(){
+    endGame(player){
         //TODO
         this.sendState();
     }
@@ -67,17 +67,17 @@ class GameController{
             }
         }
       
-    attack(player,attackedMonster){
+    attack(player,slotIndex){
         if(attackedMonster == null) {
             player.descreaseHP();
             if(player.HP == 0) this.endGame(this.currentPlayer);
         }
-        if(attackedMonster.getStackNumber == 1) player.monsterField.destroy(attackedMonster);
-        else player.monsterField.removeTopStack(attackedMonster);
+        if(attackedMonster.getStackNumber == 1) player.monsterField.destroy(slotIndex);
+        else player.monsterField.removeTopStack(slotIndex);
     }    
 
     useSkill(player,card){
-        card.activateSkill();
+        card.useSkill();
     }
 
     switchPlayer(){
