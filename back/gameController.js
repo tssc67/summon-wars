@@ -54,10 +54,10 @@ getMonsterCardGroups(){
 
 }
 
-    endGame(){
+endGame(){
         //TODO
     }
-    summonPhase(){
+summonPhase(){
         
     }
     onInput(action){
@@ -70,6 +70,8 @@ getMonsterCardGroups(){
             this.phase.next(this);
             break;
             case 'SUMMON':
+            this.currentPlayer.summon();
+            this.sendState();
             break;
         }
     }
