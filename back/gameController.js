@@ -1,12 +1,14 @@
 const CardDB;
 class GameController{
     constructor(){
+
         this.players = {
             A: new Player(),
             B: new Player()
         };
         this.currentPlayer = null;
         this.phase = new Phase();
+        this.turn = 0;
     }
     pickFirstPlayer(){
         this.currentPlayer = (Math.random() > 0.5) ? this.players.A : this.players.B;
@@ -67,15 +69,29 @@ class GameController{
             }
         }
       
-    attack(player,slotIndex){
+    attacked(player,slotIndex){
+        if (!player.shield) {
         if(attackedMonster == null) {
             player.descreaseHP();
             if(player.HP == 0) this.endGame(this.currentPlayer);
         }
         if(attackedMonster.getStackNumber == 1) player.monsterField.destroy(slotIndex);
         else player.monsterField.removeTopStack(slotIndex);
-    }    
+    }
+    else {
+        player.shield = false;
+        sendstate();
+       }
+      
+}
 
+    attacking(monsterField,slotIndex) {
+        if (monsterField.attackSlot[slotIndex] == false) {
+        monsterField.attackSlot[slotIndex] =true;
+        }
+        else sendState();
+      
+    }
     useSkill(player,card){
         card.useSkill();
     }
@@ -100,9 +116,13 @@ class GameController{
             this.currentPlayer.attack();
             this.sendState();
             case 'END_TURN' :
+            turn++;
             switchPlayer();
             break;
             case 'NEXT':
+            phase.next();
+            break;
+            case 'SUPPORT':
             phase.next();
             break;
         }

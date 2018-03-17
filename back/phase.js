@@ -10,6 +10,9 @@ class Phase{
     attackPhase(game){
         game.attackPhase();
     }
+    supportPhase(game) {
+        game.supportPhase();
+    }
     next(game){
         switch(this.current){
             case "INITIAL" :
@@ -36,9 +39,13 @@ class Phase{
             break;
             
             case "SUMMON":
-            this.current = "ATTACK";
+            this.current = "SUPPORT";
             this.attackPhase(game);
             break;
+
+            case "SUPPORT" :
+            this.current = "ATTACK";
+            this.supportPhase(game);
         }
     }
 
