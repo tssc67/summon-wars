@@ -1,3 +1,4 @@
+const MonsterCard = require('./monsterCard.js');
 class YoukaiMonsterCard extends MonsterCard {
 
 }

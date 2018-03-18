@@ -1,4 +1,5 @@
-class sup2 extends supportCard {
+const SupportCard = require('./supportCard.js');
+class sup2 extends SupportCard {
     constructor() {
         this.name = 'sup2';
         this.type = 'active';

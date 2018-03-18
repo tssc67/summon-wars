@@ -1,3 +1,4 @@
+const MonsterCard = require('./monsterCard.js');
 class KamiMonsterCard extends MonsterCard {
 
 }
