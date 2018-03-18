@@ -46,7 +46,7 @@ class KamiMonsterCard4 extends KamiMonsterCard{
         if (this.usedTurn== 0 || gameController.turn - this.usedTurn >= this.coolDown) {
             for (let i =0;i<opponent.deck.length;i++) {
                 if (opponent.deck[i].type == 'trap') {
-                    opponent.jailpool.push(player.deck[i]);
+                    opponent.jailpool.push(opponent.deck[i]);
                     opponent.deck.splice(i,1);
                 }
             }
