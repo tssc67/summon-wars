@@ -36,7 +36,22 @@ class YoukaiMonsterCard4 extends YoukaiMonsterCard{
         this.type='';
         this.code = 'you4';
         this.ID = 0;
+        this.usedTurn = 0;
+        this.coolDown = 6;
 
+    }
+    useSkill(gameController,monsterField) { //currentPlayer's monsterField
+        if (this.usedTurn== 0 || gameController.turn - this.usedTurn >= this.coolDown) {
+            for (let i = 0;i<player.jailpool.length;i++) {
+                if (player.jailpool[i] instanceof SupportCard && player.jailpool[i].type == 'trap') {
+                    player.deck.push(player.jailpool[i]);
+                    player.jailpool.splice(i,1);
+                }
+            }
+        }
+        else {
+            sendState(); //tell player he can't use skill etc.
+        }
     }
 
 }

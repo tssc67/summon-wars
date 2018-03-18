@@ -9,6 +9,15 @@ class GameController{
         this.currentPlayer = null;
         this.phase = new Phase();
         this.turn = 0;
+        this.supportFields = {
+            A: new SupportField(),
+            B: new SupportField()
+        };
+        this.monsterFields = {
+            A: new MonsterField(),
+            B: new MonsterField()
+        };
+
     }
     pickFirstPlayer(){
         this.currentPlayer = (Math.random() > 0.5) ? this.players.A : this.players.B;
@@ -58,13 +67,13 @@ class GameController{
     }
     attackPhase(){
     }
-    summon(player,card){
+    summon(monsterField,supportField,card){
             switch(card){
                 case monsterCard :
-                    player.monsterField.add(card);
+                    monsterField.add(card);
                 break;
                 case supportCards :
-                    player.supportField.add(card);
+                    supportField.add(card);
                 break;    
             }
         }
@@ -116,14 +125,14 @@ class GameController{
             this.currentPlayer.attack();
             this.sendState();
             case 'END_TURN' :
-            turn++;
+            this.turn++;
             switchPlayer();
             break;
             case 'NEXT':
-            phase.next();
+            this.phase.next();
             break;
             case 'SUPPORT':
-            phase.next();
+            this.phase.next();
             break;
         }
     }

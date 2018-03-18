@@ -1,3 +1,4 @@
+
 class Player{
     constructor(){
         //this.name = name;
@@ -6,6 +7,7 @@ class Player{
         this.hand = [];
         this.jailpool = [];
         this.shield = false;
+
     }
 
     decreaseHP(){

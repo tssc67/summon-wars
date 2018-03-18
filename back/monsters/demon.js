@@ -37,7 +37,26 @@ class DemonMonsterCard4 extends DemonMonsterCard{
         this.type='';
         this.code = 'dem4';
         this.ID = 0;
+        this.coolDown=10;
+        this.usedTurn=0;
 
+    }
+    useSkill(gameController,monsterField) { //opponent's monsterField
+        if (this.usedTurn== 0 || gameController.turn - this.usedTurn >= this.coolDown) {
+            for (let i = 0;i<2;i++) {
+                if (monsterField.slot[i].length==4) {
+                    for (let j=0;j<3;j++) {
+                        if (monsterField.slot[i][j].type=='skilled') {
+                            monsterField.slot[i][j].usedTurn = gameController.turn;
+                        }
+                    }
+                }
+            }
+            this.usedTurn = gameController.turn;
+        }
+        else {
+            sendState(); //tell player he can't use skill etc.
+        }
     }
 
 }

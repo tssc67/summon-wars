@@ -38,14 +38,15 @@ class AnimalMonsterCard4 extends AnimalMonsterCard{
         this.code = 'ani4';
         this.ID = 0;
         this.coolDown= 8;
-        this.conut=0;
+        this.usedTurn=0;
     }
-    useSkill(gameController,player) {
-        if (this.count==0) {
-            for (let i =0;i<player.deck.length;i++) {
-                if (player.deck[i].type == 'defense') {
-                    player.jailpool.push(player.deck[i]);
-                    player.deck.splice(i,1);
+    useSkill(gameController) { //I feel like this one is likely to have a bug
+        let opponent = (gameController.currentPlayer == players.A) ? gamerController.players.B : gameController.players.A;
+        if (this.usedTurn== 0 || gameController.turn - this.usedTurn >= this.coolDown) {
+            for (let i =0;i<opponent.deck.length;i++) {
+                if (opponent.deck[i].type == 'defense') {
+                    opponent.jailpool.push(player.deck[i]);
+                    opponent.deck.splice(i,1);
                 }
             }
         }

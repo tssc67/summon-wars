@@ -37,20 +37,23 @@ class AngelMonsterCard4 extends AngelMonsterCard{
         this.code = 'ang4';
         this.ID = 0;
         this.coolDown=10;
-        this.count = 0;
+        this.usedTurn=0;   
     }
-    useSkill(gameController,monsterField) {
-        if (this.count==0) {
+    useSkill(gameController,monsterField) { //currentPlayer's monsterField
+        if (this.usedTurn== 0 || gameController.turn - this.usedTurn >= this.coolDown) {
             for (let i = 0;i<2;i++) {
                 if (monsterField.slot[i].length==4) {
-                    for (let j=0;i<3;j++) {
+                    for (let j=0;j<3;j++) {
                         if (monsterField.slot[i][j].type=='skilled') {
-                            monsterField.slot[i][j].count = 0;
+                            monsterField.slot[i][j].usedTurn = 0;
                         }
                     }
                 }
             }
-            this.count = this.coolDown;
+            this.usedTurn = gameController.turn;
+        }
+        else {
+            sendState(); //tell player he can't use skill etc.
         }
     }
 

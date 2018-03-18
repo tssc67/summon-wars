@@ -38,12 +38,17 @@ class BaronMonsterCard4 extends BaronMonsterCard{
         this.code = 'bar4';
         this.ID = 0;
         this.coolDown = 8;
-        this.count = 0;
+        this.usedTurn = 0;
 
     }
-    useSkill(gameController,player,card1,card2) { //card1 card2 are the card
-        if (this.count==0) {
-            
+    useSkill(gameController,cardIndex1,cardIndex2) { //cardIndex1 cardIndex2 = index of card in opponent hand that player wants 
+        if (this.usedTurn==0 || gameController.turn - this.usedTurn >= this.coolDown) {
+            let opponent = (gameController.currentPlayer == players.A) ? gamerController.players.B : gameController.players.A;
+            gameController.currentPlayer.deck.push(opponent.hand[cardIndex1],opponent.hand[cardIndex2]);
+            this.usedTurn==gameController.turn;
+        }
+        else {
+            sendState(); //can't use skill
         }
     }
 
