@@ -1,8 +1,9 @@
 
 class Player{
-    constructor(){
+    constructor(code){
         //this.name = name;
         this.HP = 3;
+        this.code = code;
         this.deck = []; 
         this.hand = [];
         this.jailpool = [];
@@ -17,8 +18,9 @@ class Player{
     }
 
     draw(){
-        this.hand.push(this.deck[0]);
-        this.deck = this.deck.shift(1);
+        if(this.deck.length){
+            this.hand.push(this.deck.shift(1));
+        }
     }
 }
 module.exports = Player;

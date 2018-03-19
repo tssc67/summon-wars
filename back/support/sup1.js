@@ -12,3 +12,4 @@ class sup1 extends SupportCard {
 
     }
 }
+module.exports = sup1;

@@ -1,10 +1,10 @@
-const MonsterCard = require('./monsterCard.js');
+const MonsterCard = require('../monsterCard.js');
 class AngelMonsterCard extends MonsterCard {
     
 }
 class AngelMonsterCard1 extends AngelMonsterCard{
     constructor() {
-        this.name='Angel1';
+        super();this.name='Angel1';
         this.type='';
         this.code = 'ang1';
         this.ID = 0;
@@ -13,7 +13,7 @@ class AngelMonsterCard1 extends AngelMonsterCard{
 }
 class AngelMonsterCard2 extends AngelMonsterCard{
     constructor() {
-        this.name='Angel2';
+        super();this.name='Angel2';
         this.type='';
         this.code = 'ang2';
         this.ID = 0;
@@ -23,7 +23,7 @@ class AngelMonsterCard2 extends AngelMonsterCard{
 }
 class AngelMonsterCard3 extends AngelMonsterCard{
     constructor() {
-        this.name='Angel3';
+        super();this.name='Angel3';
         this.type='';
         this.code = 'ang3';
         this.ID = 0;
@@ -33,7 +33,7 @@ class AngelMonsterCard3 extends AngelMonsterCard{
 }
 class AngelMonsterCard4 extends AngelMonsterCard{
     constructor() {
-        this.name='Angel4';
+        super();this.name='Angel4';
         this.type='skilled';
         this.code = 'ang4';
         this.ID = 0;

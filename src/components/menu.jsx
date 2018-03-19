@@ -22,6 +22,7 @@ class Menu extends React.Component {
                 {
                     ['A','B'].map(choice => {
                         return <button 
+                            key={choice}
                             className={this.state.selectedPlayer == choice ? 'selected' : ''}
                             onClick={()=>{this.setState({
                                 selectedPlayer:choice

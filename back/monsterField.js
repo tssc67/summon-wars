@@ -1,24 +1,34 @@
 class MonsterField{
     constructor(){
-        this.slot = [];
+        this.slot = [[],[],[]];
         this.attackSlot = [false,false,false];
     }
 
     add(card){
         var needToStack = false;
         var stackNo = 0;
-        if(slot[0] && slot[1] && slot[2]) sendState(); // all slot is full
+        if(this.slot[0].length 
+        && this.slot[1].length 
+        && this.slot[2].length) {
+            return sendState(); // all slot is full
+        }
         for(let i = 0 ; i < 2 ; i++){
-            if(slot[i].getPrototypeOf(card)) needToStack = true;
+            if(this.slot[i].length == 0)continue;
+            const slotClass = Object.getPrototypeOf(this.slot[i][0]).name;
+            const cardClass = Object.getPrototypeOf(card).name;
+            if(slotClass == cardClass) needToStack = true;
             stackNo = i;
         }
-       if(needToStack){
-        let newStack = [];   
-        this.slot[stackNo].unshift(card);
-       }
-       else{
-        let newStack = [];   
-        this.slot[this.slot.indexOf(null)] = newStack.push(card);
+        console.log(stackNo);
+        if(needToStack){
+            this.slot[stackNo].push(card);
+        }
+        else{
+            for(let i=0;i<2;i++){
+                if(slot[i].length == 0) {
+                    this.slot[i].push(card)
+                }    
+            }
         }
     }
 

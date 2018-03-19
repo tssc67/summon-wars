@@ -1,4 +1,5 @@
 let ws;
+let messageHandler = ()=>{};
 function reconnect(){
     ws = new WebSocket('ws://localhost:8080');
     ws.onclose = function(){
@@ -7,6 +8,9 @@ function reconnect(){
     ws.onopen = function(){
         console.log("WebSocket connected");
     }
+    ws.onmessage = (message) => {
+        messageHandler(JSON.parse(message.data));
+    };
 }
 
 function sendMessage(message){
@@ -16,5 +20,8 @@ function sendMessage(message){
 }
 
 exports.sendMessage = sendMessage;
+exports.setHandler = function(handler){
+    messageHandler = handler;
+}
 
 reconnect();

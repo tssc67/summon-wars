@@ -1,10 +1,10 @@
-const MonsterCard = require('./monsterCard.js');
+const MonsterCard = require('../monsterCard.js');
 class GypsyMonsterCard extends MonsterCard {
 
 }
 class GypsyMonsterCard1 extends GypsyMonsterCard{
     constructor() {
-        this.name='gypsy1';
+        super();this.name='gypsy1';
         this.type='';
         this.code = 'gyp1';
         this.ID = 0;
@@ -14,7 +14,7 @@ class GypsyMonsterCard1 extends GypsyMonsterCard{
 }
 class GypsyMonsterCard2 extends GypsyMonsterCard{
     constructor() {
-        this.name='gypsy2';
+        super();this.name='gypsy2';
         this.type='';
         this.code = 'gyp2';
         this.ID = 0;
@@ -23,7 +23,7 @@ class GypsyMonsterCard2 extends GypsyMonsterCard{
 }
 class GypsyMonsterCard3 extends GypsyMonsterCard{
     constructor() {
-        this.name='gypsy3';
+        super();this.name='gypsy3';
         this.type='';
         this.code = 'gyp3';
         this.ID = 0;
@@ -33,7 +33,7 @@ class GypsyMonsterCard3 extends GypsyMonsterCard{
 }
 class GypsyMonsterCard4 extends GypsyMonsterCard{
     constructor() {
-        this.name='gypsy4';
+        super();this.name='gypsy4';
         this.type='';
         this.code = 'gyp4';
         this.ID = 0;

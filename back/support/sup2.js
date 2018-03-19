@@ -18,3 +18,4 @@ class sup2 extends SupportCard {
         player.deck.push(supportRecycle[j]);
     }
 }
+module.exports = sup2;

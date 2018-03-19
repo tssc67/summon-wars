@@ -19,9 +19,8 @@ class Phase{
             game.setup();
             const player = game.pickFirstPlayer();
             this.data = player; // "A" || "B"
-            this.current = "FINISH_SETUP";
-            //TODO: Define message format
-            game.sendState();
+            this.current = "TURN";
+            game.drawPhase();
             break;
             
             case "ATTACK":
@@ -42,13 +41,14 @@ class Phase{
             this.current = "SUPPORT";
             this.attackPhase(game);
             break;
-
+            
             case "SUPPORT" :
             this.current = "ATTACK";
             this.supportPhase(game);
         }
+        game.sendState();
     }
-
+    
 }
 
 module.exports = Phase;

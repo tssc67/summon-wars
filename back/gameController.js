@@ -1,10 +1,17 @@
 const CardDB = require('./cardDB');
+const Player = require('./player');
+const Phase = require('./phase');
+const SupportField = require('./supportField');
+const MonsterField = require('./monsterField');
+const MonsterCard = require('./monsterCard');
+const SupportCard = require('./supportCard');
+const server = require('./server');
 class GameController{
     constructor(){
 
         this.players = {
-            A: new Player(),
-            B: new Player()
+            A: new Player('A'),
+            B: new Player('B')
         };
         this.currentPlayer = null;
         this.phase = new Phase();
@@ -17,10 +24,12 @@ class GameController{
             A: new MonsterField(),
             B: new MonsterField()
         };
+        this.winner = null;
 
     }
     pickFirstPlayer(){
-        this.currentPlayer = (Math.random() > 0.5) ? this.players.A : this.players.B;
+        this.currentPlayer = this.players.A;
+        // this.currentPlayer = (Math.random() > 0.5) ? this.players.A : this.players.B;
         return this.currentPlayer;
     }
     drawPhase(){
@@ -34,7 +43,7 @@ class GameController{
     setup(){
         function shuffle(arr){
             return arr.map(ele => ({
-                value,
+                value: ele,
                 score: Math.random()
             }))
             .sort((a,b)=>a.score-b.score)
@@ -51,15 +60,18 @@ class GameController{
         const monsterCardGroups = shuffle(CardDB.getMonsterCardGroups());
         const [AMonsterCardGroups,BMonsterCardGroups] = split(monsterCardGroups);
         const [ASupportCards,BSupportCards] = split(supportCards);
-        const ACards = shuffle([...ASupportCards, ...[].concat(...AMonsterCardGroups)]);
-        const BCards = shuffle([...BSupportCards, ...[].concat(...BMonsterCardGroups)]);
+        const ACards = shuffle([...ASupportCards, ...[].concat(...AMonsterCardGroups)])
+        .map(card => new card());
+        const BCards = shuffle([...BSupportCards, ...[].concat(...BMonsterCardGroups)])
+        .map(card => new card());
         this.players.A.deck = ACards;
-        this.players.B.deck = Bcards;
+        this.players.B.deck = BCards;
 
     }
 
     endGame(player){
-        //TODO
+        this.winner = player.code;
+        console.log("game ended");
         this.sendState();
     }
     summonPhase(){
@@ -67,16 +79,16 @@ class GameController{
     }
     attackPhase(){
     }
+    supportPhase(){
+        //TODO
+    }
     summon(monsterField,supportField,card){
-            switch(card){
-                case monsterCard :
-                    monsterField.add(card);
-                break;
-                case supportCards :
-                    supportField.add(card);
-                break;    
-            }
+        if(card instanceof MonsterCard){
+            monsterField.add(card);
+        }else if(card instanceof supportCard){
+            supportField.add(card);
         }
+    }
       
     attacked(player,slotIndex){
         if (!player.shield) {
@@ -106,9 +118,10 @@ class GameController{
     }
 
     switchPlayer(){
-        this.currentPlayer = this.player.A? this.player.B : this.player.A;
+        this.currentPlayer = this.players.A == this.currentPlayer ? this.players.B : this.players.A;
     }
     onInput(action){
+        const code = this.currentPlayer.code;
         switch(action.type){
             case 'DRAW':
             this.currentPlayer.draw();
@@ -118,7 +131,11 @@ class GameController{
             this.phase.next(this);
             break;
             case 'SUMMON':
-            this.currentPlayer.summon();
+            this.summon(
+                this.monsterFields[code],
+                this.supportFields[code],
+                CardDB.getCardByCode(action.code)
+            );
             this.sendState();
             break;
             case 'ATTACK':
@@ -128,22 +145,50 @@ class GameController{
             this.turn++;
             switchPlayer();
             break;
-            case 'NEXT':
-            this.phase.next();
+            case 'NEXT_PHASE':
+            this.phase.next(this);
             break;
             case 'SUPPORT':
-            this.phase.next();
+            this.phase.next(this);
             break;
         }
     }
-    getListener(){
-        return (data) => {
+    getListener() {
+        return (data)=>{
             switch(data.type){
-                
+                case 'NEXT_PHASE':
+                this.onInput(data);
+                break;       
+                case 'DRAW':
+                this.onInput(data);
+                break;
+                case 'SUMMON':
+                this.onInput(data);
+                break;
             }
         }
     }
-    
+    sendState(){
+        const message = {
+            type: 'GAME_STATE',
+            state: {
+                currentPlayer: this.currentPlayer.code,
+                phase: this.phase.current,
+            }   
+        };
+        ['A','B'].forEach(player => {
+            const _message = {
+                ...message,
+                state: {
+                    ...message.state,
+                    deck: this.players[player].deck.length,
+                    hand: this.players[player].hand,
+                    winner: this.winner,
+                }
+            };
+            server.sendMessage(player,_message);
+        })
+    }
 }
 
 module.exports = GameController
