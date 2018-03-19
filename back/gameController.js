@@ -1,4 +1,4 @@
-const CardDB;
+const CardDB = require('./cardDB');
 class GameController{
     constructor(){
         this.players = {
@@ -107,5 +107,14 @@ class GameController{
             break;
         }
     }
+    getListener(){
+        return (data) => {
+            switch(data.type){
+                
+            }
+        }
+    }
+    
 }
 
+module.exports = GameController
