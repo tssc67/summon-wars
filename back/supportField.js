@@ -10,7 +10,8 @@ class SupportField{
         }
     }
 
-    destroy(index){
+    destroy(index,player){
+        player.jailpool.push(slot[index]);
         slot[index] = null;
     }
 }

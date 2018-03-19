@@ -1,9 +1,13 @@
+
 class Player{
     constructor(){
         //this.name = name;
         this.HP = 3;
         this.deck = []; 
         this.hand = [];
+        this.jailpool = [];
+        this.shield = false;
+
     }
 
     decreaseHP(){

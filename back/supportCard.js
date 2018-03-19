@@ -8,10 +8,6 @@ class SupportCard extends Card{
         this.ID = 0;
     }
 
-    destroy(){
-        sendState();
-    }
-
     useSkill(){
     }
 }
