@@ -84,9 +84,9 @@ class GameController{
     }
     summon(monsterField,supportField,card){
         if(card instanceof MonsterCard){
-            monsterField.add(card);
+            return monsterField.add(card);
         }else if(card instanceof supportCard){
-            supportField.add(card);
+            return supportField.add(card);
         }
     }
       
@@ -131,11 +131,17 @@ class GameController{
             this.phase.next(this);
             break;
             case 'SUMMON':
-            this.summon(
+            const summonStatus = this.summon(
                 this.monsterFields[code],
                 this.supportFields[code],
                 CardDB.getCardByCode(action.code)
             );
+            if(!summonStatus.ok) {
+                this.sendAlert(code,summonStatus.err);
+            } else {
+                const idx = this.currentPlayer.hand.findIndex(card => card.code == action.code);
+                this.currentPlayer.hand.splice(idx,1);
+            }
             this.sendState();
             break;
             case 'ATTACK':
@@ -168,6 +174,13 @@ class GameController{
             }
         }
     }
+    sendAlert(player, message){
+        const data = {
+            type: 'ALERT',
+            message
+        };
+        server.sendMessage(player,data);
+    }
     sendState(){
         const message = {
             type: 'GAME_STATE',
@@ -183,8 +196,11 @@ class GameController{
                     ...message.state,
                     deck: this.players[player].deck.length,
                     hand: this.players[player].hand,
+                    monsterFields: this.monsterFields,
+                    supportFields: this.supportFields,
                     winner: this.winner,
-                }
+                    iam: player
+                },
             };
             server.sendMessage(player,_message);
         })

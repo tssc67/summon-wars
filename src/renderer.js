@@ -18,10 +18,16 @@ class Renderer{
                 if(this.mouseOverObject.onEnter){
                     this.mouseOverObject.onEnter();
                 }
+                if(this.mouseOverObject._onEnter){
+                    this.mouseOverObject._onEnter();
+                }
             }
             if(this.lastOverObject && !this.mouseOverObject) {
                 if(this.lastOverObject.onLeave){
                     this.lastOverObject.onLeave();
+                }
+                if(this.lastOverObject._onLeave){
+                    this.lastOverObject._onLeave();
                 }
             }
         }, false );

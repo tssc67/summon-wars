@@ -10,7 +10,11 @@ const soc = {
 const listeners = new Set();
 
 function messageHandler(data){
-    listeners.forEach(listener => listener(data));
+    listeners.forEach(listener => {
+        if(typeof listener == 'function') {
+            listener(data);
+        }
+    });
 }
 
 let game = new GameController();
@@ -50,7 +54,7 @@ exports.removeListener = (listener) => {
 }
 
 exports.sendMessage = (playerCode,message) => {
-    if(soc[playerCode]){
+    if(soc[playerCode] && soc[playerCode].readyState == 1){
         message.player = playerCode;
         soc[playerCode].send(JSON.stringify(message));
     }

@@ -61,7 +61,8 @@ class App extends React.Component {
                         left: `${this.mouse.x}px`,
                         top: `${this.mouse.y}px`,
                         padding:'1em',
-                        background:'#333333'
+                        background:'#333333',
+                        pointerEvents: 'none'
                     }}>
                         {this.game.state.tooltip.text}
                     </div>                

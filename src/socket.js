@@ -1,7 +1,7 @@
 let ws;
 let messageHandler = ()=>{};
 function reconnect(){
-    ws = new WebSocket('ws://localhost:8080');
+    ws = new WebSocket('ws://'+window.location.hostname+':8080');
     ws.onclose = function(){
         setTimeout(reconnect,200);
     }
